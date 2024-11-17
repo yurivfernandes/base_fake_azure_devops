@@ -1,0 +1,11 @@
+.vscode/
+.python-version
+**/.venv
+**/.git
+**/__pycache__
+.idea/
+.run/
+.env
+**/*.sqlite3
+**/*.sqlite
+uploaded_files/**
