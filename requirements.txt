@@ -1,3 +1,5 @@
-Django
-djangorestframework
-djangorestframework-simplejwt
+Faker 
+holidays 
+openpyxl
+polars==1.0.0
+xlsxwriter
