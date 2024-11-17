@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 import polars as pl
 
 
-# Função para criar dados de backlog
 def gerar_backlogs():
     equipes = ["Teste Analytics", "Dev. Analytics", "Análise de Requisitos"]
     consultores = [
@@ -27,7 +26,6 @@ def gerar_backlogs():
     data_inicio = datetime(2023, 1, 2)
     sprints = []
 
-    # Gera datas de sprints de 15 dias
     while data_inicio.year <= 2024:
         data_fim = data_inicio + timedelta(days=14)
         sprints.append((data_inicio, data_fim))
@@ -37,7 +35,7 @@ def gerar_backlogs():
     id_tarefa = 4200
 
     for sprint_id, (inicio, fim) in enumerate(sprints, start=1):
-        for _ in range(random.randint(1, 3)):  # Até 3 backlogs por sprint
+        for _ in range(random.randint(1, 3)):
             equipe = random.choice(equipes)
             consultor = random.choice(consultores)
             projeto = random.choice(projetos)
@@ -47,7 +45,6 @@ def gerar_backlogs():
             valor_negocio = random.randint(20, 200)
             effort = random.randint(8, 40)
 
-            # Define a data de fechamento com 75% de probabilidade de ser na data prevista
             fechou_na_data = random.random() < 0.75
             data_fechamento = (
                 fim
@@ -87,7 +84,6 @@ def gerar_backlogs():
     return backlogs
 
 
-# Função para criar tarefas a partir dos backlogs
 def gerar_tasks(backlogs):
     atividades = [
         "arquitetura de dados",
@@ -97,6 +93,14 @@ def gerar_tasks(backlogs):
     ]
     tasks = []
 
+    todos_consultores = [
+        "Ana Nogueira",
+        "Enzo Farias",
+        "Ísis Monteiro",
+        "Pietro Cassiano",
+        "Bárbara Andrade",
+    ]
+
     for backlog in backlogs:
         sprint_inicio = datetime.strptime(
             backlog["Data Início Previsto"], "%Y-%m-%d"
@@ -105,10 +109,50 @@ def gerar_tasks(backlogs):
             backlog["Data Fim Previsto"], "%Y-%m-%d"
         )
 
-        num_tasks = random.randint(1, 3)  # Até 3 tarefas por backlog
-        for i in range(num_tasks):
+        # Distribuir as tarefas igualmente entre todos os consultores
+        num_tasks = random.randint(1, 3)
+        tarefas_por_consultor = num_tasks // len(todos_consultores)
+        tasks_restantes = num_tasks % len(todos_consultores)
+
+        # Distribuindo tarefas igualmente
+        tarefas = []
+        for i, consultor in enumerate(todos_consultores):
+            for _ in range(tarefas_por_consultor):
+                atividade = random.choice(atividades)
+                assigned_to = consultor
+                iteration_path = backlog["Iteration Path"]
+                estado = (
+                    "Concluído" if random.random() < 0.8 else "Não Concluído"
+                )
+                fechado_dentro_sprint = (
+                    sprint_fim
+                    if estado == "Concluído"
+                    else sprint_fim + timedelta(days=random.randint(1, 15))
+                )
+
+                task = {
+                    "Activity": atividade,
+                    "Area Path": backlog["Area Path"],
+                    "Assigned To": assigned_to,
+                    "Changed Date": fechado_dentro_sprint.strftime("%Y-%m-%d"),
+                    "Closed Date": fechado_dentro_sprint.strftime("%Y-%m-%d")
+                    if estado == "Concluído"
+                    else "",
+                    "Created Date": sprint_inicio.strftime("%Y-%m-%d"),
+                    "Iteration Path": iteration_path,
+                    "Parent Work Item Id": backlog["Work Item Id"],
+                    "State": estado,
+                    "Title": atividade,
+                    "Work Item Id": f"{backlog['Work Item Id']}",
+                    "Work Item Type": "Task",
+                }
+                tarefas.append(task)
+
+        # Se houver tarefas restantes, atribuir para os primeiros consultores
+        for i in range(tasks_restantes):
+            consultor = todos_consultores[i]
             atividade = random.choice(atividades)
-            assigned_to = backlog["Assigned To"]
+            assigned_to = consultor
             iteration_path = backlog["Iteration Path"]
             estado = "Concluído" if random.random() < 0.8 else "Não Concluído"
             fechado_dentro_sprint = (
@@ -130,24 +174,23 @@ def gerar_tasks(backlogs):
                 "Parent Work Item Id": backlog["Work Item Id"],
                 "State": estado,
                 "Title": atividade,
-                "Work Item Id": f"{backlog['Work Item Id']}-{i + 1}",  # ID de task baseado no backlog
+                "Work Item Id": f"{backlog['Work Item Id']}",
                 "Work Item Type": "Task",
             }
-            tasks.append(task)
+            tarefas.append(task)
+
+        tasks.extend(tarefas)
 
     return tasks
 
 
-# Função para salvar os dados no Excel
 def salvar_excel(backlogs, tasks, arquivo_backlog, arquivo_task):
     try:
         os.makedirs(os.path.dirname(arquivo_backlog), exist_ok=True)
 
-        # Criar DataFrame com Polars para backlogs e tasks
         df_backlog = pl.DataFrame(backlogs)
         df_task = pl.DataFrame(tasks)
 
-        # Salvar como Excel
         df_backlog.write_excel(arquivo_backlog)
         df_task.write_excel(arquivo_task)
 
@@ -159,7 +202,6 @@ def salvar_excel(backlogs, tasks, arquivo_backlog, arquivo_task):
         print(f"Erro ao salvar os arquivos Excel: {e}")
 
 
-# Código principal
 if __name__ == "__main__":
     try:
         backlogs = gerar_backlogs()
