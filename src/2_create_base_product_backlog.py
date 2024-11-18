@@ -16,11 +16,6 @@ def gerar_backlogs():
     ]
     projetos = ["Projeto 1", "Projeto 2", "Projeto 3"]
     chamados = ["Projeto1", "Projeto2", "Projeto3"]
-    titulos = [
-        "Laboratório de dados 1",
-        "Laboratório de dados 2",
-        "Laboratório de dados 3",
-    ]
     prioridades = ["1 - Alta", "2 - Média", "3 - Baixa", "4 - Sem Prioridade"]
 
     data_inicio = datetime(2023, 1, 2)
@@ -35,12 +30,17 @@ def gerar_backlogs():
     id_tarefa = 4200
 
     for sprint_id, (inicio, fim) in enumerate(sprints, start=1):
-        for _ in range(random.randint(1, 3)):
+        # Garantir uma média de 3 PB por sprint, com um máximo de 10
+        num_backlogs = max(
+            1, int(random.gauss(3, 2))
+        )  # Média 3, desvio padrão 2
+        num_backlogs = min(num_backlogs, 10)  # Limitar ao máximo de 10
+
+        for _ in range(num_backlogs):
             equipe = random.choice(equipes)
             consultor = random.choice(consultores)
             projeto = random.choice(projetos)
             chamado = random.choice(chamados)
-            titulo = random.choice(titulos)
             prioridade = random.choice(prioridades)
             valor_negocio = random.randint(20, 200)
             effort = random.randint(8, 40)
@@ -52,6 +52,7 @@ def gerar_backlogs():
                 else fim + timedelta(days=random.randint(15, 60))
             )
 
+            # Ajuste dos títulos e estados dos Backlogs
             backlog = {
                 "Area Path": equipe,
                 "Assigned To": consultor,
@@ -71,7 +72,10 @@ def gerar_backlogs():
                 "Project Name": projeto,
                 "Service Now": chamado,
                 "Tags": "",
-                "Title": titulo,
+                "Title": f"Backlog {id_tarefa - 4199}",
+                "State": random.choice(
+                    ["Aberto", "Em atendimento", "Em homologação", "Concluído"]
+                ),
                 "Value Area": "Business",
                 "Versão": "1.0",
                 "Work Item Id": id_tarefa,
@@ -86,12 +90,13 @@ def gerar_backlogs():
 
 def gerar_tasks(backlogs):
     atividades = [
-        "arquitetura de dados",
-        "documentação",
-        "engenharia de dados",
-        "criação de painéis",
+        "Arquitetura de dados",
+        "Documentação",
+        "Engenharia de dados",
+        "Criação de painéis",
     ]
     tasks = []
+    id_task = 1
 
     todos_consultores = [
         "Ana Nogueira",
@@ -109,77 +114,37 @@ def gerar_tasks(backlogs):
             backlog["Data Fim Previsto"], "%Y-%m-%d"
         )
 
-        # Distribuir as tarefas igualmente entre todos os consultores
         num_tasks = random.randint(1, 3)
-        tarefas_por_consultor = num_tasks // len(todos_consultores)
-        tasks_restantes = num_tasks % len(todos_consultores)
-
-        # Distribuindo tarefas igualmente
-        tarefas = []
-        for i, consultor in enumerate(todos_consultores):
-            for _ in range(tarefas_por_consultor):
-                atividade = random.choice(atividades)
-                assigned_to = consultor
-                iteration_path = backlog["Iteration Path"]
-                estado = (
-                    "Concluído" if random.random() < 0.8 else "Não Concluído"
-                )
-                fechado_dentro_sprint = (
-                    sprint_fim
-                    if estado == "Concluído"
-                    else sprint_fim + timedelta(days=random.randint(1, 15))
-                )
-
-                task = {
-                    "Activity": atividade,
-                    "Area Path": backlog["Area Path"],
-                    "Assigned To": assigned_to,
-                    "Changed Date": fechado_dentro_sprint.strftime("%Y-%m-%d"),
-                    "Closed Date": fechado_dentro_sprint.strftime("%Y-%m-%d")
-                    if estado == "Concluído"
-                    else "",
-                    "Created Date": sprint_inicio.strftime("%Y-%m-%d"),
-                    "Iteration Path": iteration_path,
-                    "Parent Work Item Id": backlog["Work Item Id"],
-                    "State": estado,
-                    "Title": atividade,
-                    "Work Item Id": f"{backlog['Work Item Id']}",
-                    "Work Item Type": "Task",
-                }
-                tarefas.append(task)
-
-        # Se houver tarefas restantes, atribuir para os primeiros consultores
-        for i in range(tasks_restantes):
-            consultor = todos_consultores[i]
+        for _ in range(num_tasks):
             atividade = random.choice(atividades)
-            assigned_to = consultor
+            assigned_to = random.choice(todos_consultores)
             iteration_path = backlog["Iteration Path"]
-            estado = "Concluído" if random.random() < 0.8 else "Não Concluído"
-            fechado_dentro_sprint = (
-                sprint_fim
-                if estado == "Concluído"
-                else sprint_fim + timedelta(days=random.randint(1, 15))
-            )
 
+            # Ajuste dos títulos e estados das Tasks
             task = {
                 "Activity": atividade,
                 "Area Path": backlog["Area Path"],
                 "Assigned To": assigned_to,
-                "Changed Date": fechado_dentro_sprint.strftime("%Y-%m-%d"),
-                "Closed Date": fechado_dentro_sprint.strftime("%Y-%m-%d")
-                if estado == "Concluído"
-                else "",
+                "Changed Date": sprint_fim.strftime("%Y-%m-%d"),
+                "Closed Date": sprint_fim.strftime("%Y-%m-%d"),
                 "Created Date": sprint_inicio.strftime("%Y-%m-%d"),
                 "Iteration Path": iteration_path,
                 "Parent Work Item Id": backlog["Work Item Id"],
-                "State": estado,
-                "Title": atividade,
-                "Work Item Id": f"{backlog['Work Item Id']}",
+                "State": random.choice(
+                    [
+                        "Aberto",
+                        "Bloqueado",
+                        "Em Execução",
+                        "Em homologação",
+                        "Concluído",
+                    ]
+                ),
+                "Title": f"Tarefa {id_task}",
+                "Work Item Id": backlog["Work Item Id"],
                 "Work Item Type": "Task",
             }
-            tarefas.append(task)
-
-        tasks.extend(tarefas)
+            tasks.append(task)
+            id_task += 1
 
     return tasks
 
