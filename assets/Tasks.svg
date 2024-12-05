@@ -1,19 +1,20 @@
 <svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect width="1600" height="900" fill="white"/>
-<rect x="1074" y="554" width="510.813" height="321.915" rx="8" fill="#F8F8F8"/>
-<rect x="550" y="553.62" width="510.813" height="321.915" rx="8" fill="#F8F8F8"/>
-<rect x="26" y="553.62" width="510.813" height="321.915" rx="8" fill="#F8F8F8"/>
-<rect x="1004" y="210" width="581" height="321.915" rx="8" fill="#F8F8F8"/>
-<rect x="1157" y="18" width="428" height="76" rx="8" fill="#F8F8F8"/>
-<rect x="831" y="18" width="313" height="76" rx="8" fill="#F8F8F8"/>
-<rect x="505" y="18" width="313" height="76" rx="8" fill="#F8F8F8"/>
-<rect x="609" y="210" width="381.813" height="321.915" rx="8" fill="#F8F8F8"/>
-<rect x="26" y="210" width="569.813" height="321.915" rx="8" fill="#F8F8F8"/>
 <path d="M115.4 839.057H1577.57" stroke="#F8F8F8"/>
 <rect x="23" width="289" height="125" fill="url(#pattern0_2667_125)"/>
 <line x1="164.993" y1="160" x2="443.993" y2="159" stroke="#004070" stroke-width="4"/>
 <circle cx="444.5" cy="158.5" r="6.5" fill="#00246F"/>
-<path d="M367.688 41.375H386.438V55.4375H367.688V41.375ZM372.375 50.75H381.75V46.0625H372.375V50.75ZM367.688 60.125H386.438V74.1875H367.688V60.125ZM372.375 69.5H381.75V64.8125H372.375V69.5ZM391.125 41.375H409.875V55.4375H391.125V41.375ZM395.812 50.75H405.188V46.0625H395.812V50.75ZM433.312 41.375V55.4375H414.562V41.375H433.312ZM428.625 46.0625H419.25V50.75H428.625V46.0625ZM391.125 60.125H409.875V74.1875H391.125V60.125ZM395.812 69.5H405.188V64.8125H395.812V69.5ZM367.688 78.875H386.438V92.9375H367.688V78.875ZM372.375 88.25H381.75V83.5625H372.375V88.25Z" fill="#06416C"/>
+<path d="M316.688 34.375H335.438V48.4375H316.688V34.375ZM321.375 43.75H330.75V39.0625H321.375V43.75ZM316.688 53.125H335.438V67.1875H316.688V53.125ZM321.375 62.5H330.75V57.8125H321.375V62.5ZM340.125 34.375H358.875V48.4375H340.125V34.375ZM344.812 43.75H354.188V39.0625H344.812V43.75ZM382.312 34.375V48.4375H363.562V34.375H382.312ZM377.625 39.0625H368.25V43.75H377.625V39.0625ZM340.125 53.125H358.875V67.1875H340.125V53.125ZM344.812 62.5H354.188V57.8125H344.812V62.5ZM316.688 71.875H335.438V85.9375H316.688V71.875ZM321.375 81.25H330.75V76.5625H321.375V81.25Z" fill="#06416C"/>
+<rect x="1067" y="560" width="510.813" height="321.915" rx="8" fill="#F8F8F8"/>
+<rect x="543" y="559.62" width="510.813" height="321.915" rx="8" fill="#F8F8F8"/>
+<rect x="19" y="559.62" width="510.813" height="321.915" rx="8" fill="#F8F8F8"/>
+<rect x="1001" y="225" width="581" height="321.915" rx="8" fill="#F8F8F8"/>
+<rect x="606" y="225" width="381.813" height="321.915" rx="8" fill="#F8F8F8"/>
+<rect x="23" y="225" width="569.813" height="321.915" rx="8" fill="#F8F8F8"/>
+<rect x="1157" y="18" width="428" height="76" rx="8" fill="#F8F8F8"/>
+<rect x="908.492" y="18" width="235.508" height="76" rx="8" fill="#F8F8F8"/>
+<rect x="659.984" y="18" width="235.508" height="76" rx="8" fill="#F8F8F8"/>
+<rect x="411" y="18" width="235.508" height="76" rx="8" fill="#F8F8F8"/>
 <defs>
 <pattern id="pattern0_2667_125" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#image0_2667_125" transform="matrix(0.00108131 0 0 0.0025 -0.000648789 0)"/>
